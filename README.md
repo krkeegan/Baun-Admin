@@ -11,3 +11,5 @@ plugin.  I have added features that I find useful.  These include:
 * User defined header keys as inputs in the 'simple' editor interface such as
 'exclude_from_nav' or 'template'.  Keys are defined in the admin.php config
 file.
+* UI Fixes (Show nav drop down on small screens, better alignment of view, edit,
+  and delete buttons)

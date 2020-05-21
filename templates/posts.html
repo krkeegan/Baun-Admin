@@ -14,7 +14,7 @@
 						<th>Page</th>
 						<th>Path</th>
 						<th>Published</th>
-						<th></th>
+						<th class="col-md-2"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -24,10 +24,16 @@
 							<td>{{ post.route }}</td>
 							<td>{{ post.path }}</td>
 							<td>{{ post.published }}</td>
-							<td style="text-align:right;">
-								<a href="{{ base_url }}/{% if post.route != '/' %}{{ post.route }}{% endif %}" target="_blank" class="view"><span class="glyphicon glyphicon-eye-open"></span> View</a>
-								<a href="{{ base_url }}/admin/posts/edit?file={{ post.path|url_encode }}" class="edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-								<a href="{{ base_url }}/admin/posts/delete?file={{ post.path|url_encode }}" class="delete"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+							<td class="row">
+								<div class="col-md-4 col-xs-12 center-block text-center">
+									<a href="{{ base_url }}/{% if post.route != '/' %}{{ post.route }}{% endif %}" target="_blank" class="view"><span class="glyphicon glyphicon-eye-open"></span> View</a>
+								</div>
+								<div class="col-md-4 col-xs-12 center-block text-center">
+									<a href="{{ base_url }}/admin/posts/edit?file={{ post.path|url_encode }}" class="edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+								</div>
+								<div class="col-md-4 col-xs-12 center-block text-center">
+									<a href="{{ base_url }}/admin/posts/delete?file={{ post.path|url_encode }}" class="delete"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+								</div>
 							</td>
 						</tr>
 					{% endfor %}
