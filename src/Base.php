@@ -99,6 +99,11 @@ class Base {
 		return 'simple';
 	}
 
+	protected function getExtraHeaderKeys()
+	{
+		return $this->config->get('plugins-bauncms-baun-admin-admin.extra_header_keys', Array());
+	}
+
 	protected function endsWith($haystack, $needle)
 	{
 		$length = strlen($needle);
@@ -152,6 +157,12 @@ class Base {
 			}
 
 			$header = '';
+			// insert user defined extra headers
+			foreach ($this->getExtraHeaderKeys() as $extraKey){
+				if (isset($data['user-' . $extraKey])){
+					$header .= $extraKey . ': ' . filter_var($data['user-' . $extraKey], FILTER_SANITIZE_STRING) . "\n";
+				}
+			}
 			if ($title) {
 				$header .= 'title: ' . $title . "\n";
 			}

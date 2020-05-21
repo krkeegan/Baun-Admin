@@ -62,6 +62,7 @@ class Posts extends Base {
 		$data['form_action'] = $this->config->get('app.base_url') . '/admin/posts/create';
 		$data['blog_path_base'] = $this->blog_path_base;
 		$data['errors'] = $this->session->getFlashBag()->get('error');
+		$data['extra_header_keys'] = $this->getExtraHeaderKeys();
 
 		return $this->theme->render('create-' . $this->getEditorType(), $data);
 	}
@@ -97,6 +98,7 @@ class Posts extends Base {
 		$data['label'] = 'Post';
 		$data['form_action'] = $this->config->get('app.base_url') . '/admin/posts/edit?file=' . urlencode($file);
 		$data['blog_path_base'] = $this->blog_path_base;
+		$data['extra_header_keys'] = $this->getExtraHeaderKeys();
 		$post = $this->findFile('path', $file, $this->posts);
 
 		if (!$post) {
@@ -112,6 +114,7 @@ class Posts extends Base {
 		$parsedInput = $this->contentParser->parse($input);
 		$data['title'] = isset($parsedInput['info']['title']) ? $parsedInput['info']['title'] : '';
 		$data['description'] = isset($parsedInput['info']['description']) ? $parsedInput['info']['description'] : '';
+		$data['parsed_header'] = $parsedInput['info'];
 		if (preg_match('/^\d+\-/', basename($post['path']))) {
 			list($order, $path) = explode('-', basename($post['path']), 2);
 			$data['order'] = $order;

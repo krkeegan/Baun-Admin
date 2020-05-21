@@ -56,6 +56,12 @@
 					<input type="text" name="new_folder" id="new_folder" class="form-control" placeholder="example/sub-folder">
 				</div>
 				{% endif %}
+				{% for header_key in extra_header_keys %}
+				<div class="form-group">
+					<label for="user-{{header_key}}">{{header_key|title}}</label>
+					<input type="text" name="user-{{header_key}}" id="user-{{header_key}}" class="form-control" value="{{parsed_header[header_key]}}">
+				</div>
+				{% endfor %}
 				<div class="form-group content-editor">
 					<label for="content">Content</label>
 					<textarea name="content" id="content" rows="20" class="form-control" data-provide="markdown">{{ content }}</textarea>

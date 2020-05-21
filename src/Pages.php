@@ -64,6 +64,7 @@ class Pages extends Base {
 		$data['form_action'] = $this->config->get('app.base_url') . '/admin/pages/create';
 		$data['folders'] = $this->getFolders();
 		$data['errors'] = $this->session->getFlashBag()->get('error');
+		$data['extra_header_keys'] = $this->getExtraHeaderKeys();
 
 		return $this->theme->render('create-' . $this->getEditorType(), $data);
 	}
@@ -88,6 +89,7 @@ class Pages extends Base {
 		$data['form_action'] = $this->config->get('app.base_url') . '/admin/pages/edit?file=' . urlencode($file);
 		$data['folders'] = $this->getFolders();
 		$data['errors'] = $this->session->getFlashBag()->get('error');
+		$data['extra_header_keys'] = $this->getExtraHeaderKeys();
 
 		$page = $this->findFile('path', $file, $this->pages);
 		if (!$page) {
@@ -104,6 +106,7 @@ class Pages extends Base {
 		$data['title'] = isset($parsedInput['info']['title']) ? $parsedInput['info']['title'] : '';
 		$data['description'] = isset($parsedInput['info']['description']) ? $parsedInput['info']['description'] : '';
 		$data['current_folder'] = (dirname($page['path']) == '.' ? '/' : dirname($page['path']));
+		$data['parsed_header'] = $parsedInput['info'];
 		if (preg_match('/^\d+\-/', basename($page['path']))) {
 			list($order, $path) = explode('-', basename($page['path']), 2);
 			$data['order'] = $order;
