@@ -24,13 +24,13 @@
 							<td>{{ page.updated }}</td>
 							<td class="row">
 								<div class="col-md-4 col-xs-12 center-block text-center">
-									<a href="{{ base_url }}/{% if post.route != '/' %}{{ post.route }}{% endif %}" target="_blank" class="view"><span class="glyphicon glyphicon-eye-open"></span> View</a>
+									<a href="{{ base_url }}/{% if page.route != '/' %}{{ page.route }}{% endif %}" target="_blank" class="view"><span class="glyphicon glyphicon-eye-open"></span> View</a>
 								</div>
 								<div class="col-md-4 col-xs-12 center-block text-center">
-									<a href="{{ base_url }}/admin/posts/edit?file={{ post.path|url_encode }}" class="edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+									<a href="{{ base_url }}/admin/pages/edit?file={{ page.path|url_encode }}" class="edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
 								</div>
 								<div class="col-md-4 col-xs-12 center-block text-center">
-									<a href="{{ base_url }}/admin/posts/delete?file={{ post.path|url_encode }}" class="delete"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+									<a href="{{ base_url }}/admin/pages/delete?file={{ page.path|url_encode }}" class="delete"><span class="glyphicon glyphicon-trash"></span> Delete</a>
 								</div>
 							</td>
 						</tr>
