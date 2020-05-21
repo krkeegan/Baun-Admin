@@ -104,6 +104,7 @@ class Posts extends Base {
 		if (!$post) {
 			return header('Location: ' . $this->config->get('app.base_url') . '/admin/404');
 		}
+		$data['slug'] = $this->extractSlug($post);
 
 		$input = file_get_contents($this->config->get('app.content_path') . $post['path']);
 		$args = explode('----', $input, 2);

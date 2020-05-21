@@ -96,6 +96,8 @@ class Pages extends Base {
 			return header('Location: ' . $this->config->get('app.base_url') . '/admin/404');
 		}
 
+		$data['slug'] = $this->extractSlug($page);
+
 		$pageContents = file_get_contents($this->config->get('app.content_path') . $page['path']);
 		$args = explode('----', $pageContents, 2);
 		$data['path'] = $file;

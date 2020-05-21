@@ -123,6 +123,16 @@ class Base {
 		return $text;
 	}
 
+	protected function extractSlug($entry)
+	{
+		// Assumes that $file is a valid name
+		$slug = end(explode('/', $entry['route']));
+		if ($slug == ''){
+			$slug = 'index';
+		}
+		return $slug;
+	}
+
 	protected function saveFile($data, $files, $existingFile = '')
 	{
 		if ($this->getEditorType() == 'advanced') {
@@ -135,6 +145,7 @@ class Base {
 			}
 		} else {
 			$title = isset($data['title']) ? filter_var($data['title'], FILTER_SANITIZE_STRING) : null;
+			$slug = isset($data['slug']) ? filter_var($data['slug'], FILTER_SANITIZE_STRING) : $title;
 			$description = isset($data['description']) ? filter_var($data['description'], FILTER_SANITIZE_STRING) : null;
 			$order = isset($data['order']) ? filter_var($data['order'], FILTER_SANITIZE_NUMBER_INT) : null;
 			$folder = isset($data['folder']) ? $data['folder'] : null;
@@ -142,7 +153,7 @@ class Base {
 			$content = isset($data['content']) ? trim($data['content']) : null;
 
 			$path = '';
-			if ($slug = $this->slugify($title)) {
+			if ($slug = $this->slugify($slug)) {
 				$path = $folder;
 				if ($folder == '_new_') {
 					$path = trim($new_folder, '/');
