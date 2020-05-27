@@ -92,6 +92,10 @@ class Admin extends Plugin {
 		});
 
 		$this->router->group(['before' => ['csrf', 'users', 'auth']], function(){
+			$this->router->add('POST', '/admin/upload', [$this, 'routePostUpload']);
+		});
+
+		$this->router->group(['before' => ['csrf', 'users', 'auth']], function(){
 			$this->router->add('GET', '/admin/logout', [$this, 'routeLogout']);
 			$this->router->add('GET', '/admin/users', [$this, 'routeUsers']);
 		});
@@ -173,6 +177,53 @@ class Admin extends Plugin {
 		$data = $this->getGlobalTemplateData();
 		$data['users'] = $this->users;
 		return $this->theme->render('users', $data);
+	}
+
+	public function routePostUpload()
+	{
+		if (!empty($_FILES)) {
+			// Do some simple file verifications before saving the file.  These
+			// checks could be more thorough, but as this is only permitted for
+			// authorized users, we don't perform some of the complex checks
+			$error = '';
+			$fileName = $_FILES['file']['name'];
+			$ext = strtolower(end(explode(".",implode("",explode("\\",$fileName)))));
+			$mimetype = mime_content_type($_FILES['file']['tmp_name']);
+			if ($_FILES['file']['postError'] > 0){
+				$phpFileUploadErrors = array(
+					1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+					2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+					3 => 'The uploaded file was only partially uploaded',
+					4 => 'No file was uploaded',
+					6 => 'Missing a temporary folder',
+					7 => 'Failed to write file to disk.',
+					8 => 'A PHP extension stopped the file upload.',
+				);
+				$error = $phpFileUploadErrors[$file['postError']];
+			}
+			elseif ($_FILES['file']['size'] <= 0){
+				$error = "File was 0 bytes in length, could have exceeded php upload limit.";
+			}
+			elseif (!in_array($ext, array('jpg', 'jpeg', 'png', 'gif', 'tiff', 'bmp', 'svg'))){
+				$error = "File extension $ext is not a permitted type.";
+			}
+			elseif (!preg_match("/image\//i", $mimetype))
+			{
+				$error = "Mime-type $mimetype is not permitted.";
+			}
+			if ($error != ''){
+				http_response_code(400);
+				$ret = $error;
+			}
+			else {
+				$ds = DIRECTORY_SEPARATOR;
+				$tempFile = $_FILES['file']['tmp_name'];
+				$targetFile = BASE_PATH . 'public' . $ds . 'img' . $ds . $fileName;
+				move_uploaded_file($tempFile,$targetFile);
+				$ret = $this->config->get('app.base_url') . '/img/' . $fileName;
+			}
+		}
+		return $ret;
 	}
 
 	protected function getGlobalTemplateData()

@@ -15,3 +15,6 @@ file.
 and delete buttons)
 * Allow for user defined slugs in the simple editor.  Necessary to editing any
 index page as discovered by [ivoilic](https://github.com/ivoilic/Baun-Admin/commit/db02f4f19200e903a192fe61e8e29cdf5419f999)
+* Enable image uploading from the Simple markdown editor. (Currently requires
+  the creation of the directory 'img' under the 'public' directory, eventually
+  I may fork and make changes to the base Baun cms to fix this.)

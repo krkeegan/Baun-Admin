@@ -68,7 +68,7 @@
 				{% endfor %}
 				<div class="form-group content-editor">
 					<label for="content">Content</label>
-					<textarea name="content" id="content" rows="20" class="form-control" data-provide="markdown">{{ content }}</textarea>
+					<textarea name="content" id="content" rows="20" class="form-control">{{ content }}</textarea>
 				</div>
 				<input type="hidden" name="token" value="{{ token }}">
 				<input type="submit" value="Save {{ label }}" class="btn btn-primary">
@@ -79,9 +79,16 @@
 
 {% block styles %}
 	<link rel="stylesheet" href="{{ base_url }}/assets/plugins/bauncms/baun-admin/bootstrap-markdown/css/bootstrap-markdown.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css" />
+	<style>
+		.dropzone{
+			padding: 0px 0px;
+		}
+	</style>
 {% endblock %}
 
 {% block scripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.js"></script>
 	<script src="{{ base_url }}/assets/plugins/bauncms/baun-admin/markdown-js/markdown.js"></script>
 	<script src="{{ base_url }}/assets/plugins/bauncms/baun-admin/bootstrap-markdown/js/bootstrap-markdown.js"></script>
 	<script>
@@ -92,6 +99,15 @@
 				$('.new-folder-group').show();
 			} else {
 				$('.new-folder-group').hide();
+			}
+		});
+		$('#content').markdown({
+			dropZoneOptions: {
+				url: '/admin/upload',
+				disablePreview: true,
+				acceptFiles: 'image/*',
+				maxThumbnailFilesize: 5,
+
 			}
 		});
 	});
