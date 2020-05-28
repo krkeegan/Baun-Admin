@@ -144,20 +144,26 @@ class Admin extends Plugin {
 	{
 		$email = isset($_POST['email']) ? $_POST['email'] : null;
 		$password = isset($_POST['password']) ? $_POST['password'] : null;
+		$error = '';
 
 		if (!$email || !$password) {
 			$this->session->getFlashBag()->add('error', 'Both an email address and password are required');
+			$error = "Missing email or password.";
 		}
 		if (!$this->session->getFlashBag()->has('error') && !isset($this->users[$email])) {
-			$this->session->getFlashBag()->add('error', 'No user exists for this email address');
+			$this->session->getFlashBag()->add('error', 'Invalid email address or password');
+			$error = "Invalid email address $email.";
 		}
 		if (!$this->session->getFlashBag()->has('error') && !isset($this->users[$email]['password'])) {
 			$this->session->getFlashBag()->add('error', 'This user has no password set');
+			$error = "No password set for email $email.";
 		}
 		if (!$this->session->getFlashBag()->has('error') && !password_verify($password, $this->users[$email]['password'])) {
-			$this->session->getFlashBag()->add('error', 'Invalid password');
+			$this->session->getFlashBag()->add('error', 'Invalid email address or password');
+			$error = "Invalid password for email $email.";
 		}
 		if ($this->session->getFlashBag()->has('error')) {
+			error_log("Baun-Admin Authentication Failure: $error");
 			return header('Location: ' . $this->config->get('app.base_url') . '/admin/login');
 		}
 

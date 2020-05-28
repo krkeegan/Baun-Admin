@@ -15,6 +15,22 @@ file.
 and delete buttons)
 * Allow for user defined slugs in the simple editor.  Necessary to editing any
 index page as discovered by [ivoilic](https://github.com/ivoilic/Baun-Admin/commit/db02f4f19200e903a192fe61e8e29cdf5419f999)
-* Enable image uploading from the Simple markdown editor. (Currently requires
-  the creation of the directory 'img' under the 'public' directory, eventually
-  I may fork and make changes to the base Baun cms to fix this.)
+* Enable image uploading from the Simple markdown editor. (Make sure you are
+also using the [KRKeegan Fork of Baun CMS](https://github.com/krkeegan/Baun)
+for this to work right.)
+* Security Improvements - Don't report if username exists or not.  Add support
+for fail2ban protection on login page.
+
+## Fail2Ban
+
+Add a the following to your apache-auth jail file in your fail2ban config:
+```
+[INCLUDES]
+before = ../filter.d/apache-common.conf
+
+[apache-auth]
+enabled = true
+failregex = %(known/failregex)s
+            ^%(_apache_error_client)s (Baun-Admin Authentication Failure:).*(, referer: \S+)?\s*$
+
+```
