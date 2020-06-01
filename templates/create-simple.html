@@ -21,7 +21,7 @@
 					<label for="description">Description (for search engines)</label>
 					<input type="text" name="description" id="description" class="form-control">
 				</div>
-				{% if folders %}
+				{% if type == 'page' %}
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -41,7 +41,7 @@
 							<label for="order">{% if blog_path_base %}Published (yyyymmdd){% else %}Order{% endif %}</label>
 							<input type="text" name="order" id="order" class="form-control">
 						</div>
-				{% if folders %}
+				{% if type == 'page' %}
 					</div>
 				</div>
 				<div class="form-group new-folder-group">
@@ -84,7 +84,7 @@
 	$(document).ready(function() {
 		$('.new-folder-group').hide();
 		$('#folder').on('change', function(){
-			if ($(this).find('option:selected').val() == 'new') {
+			if ($(this).find('option:selected').val() == '_new_') {
 				$('.new-folder-group').show();
 			} else {
 				$('.new-folder-group').hide();

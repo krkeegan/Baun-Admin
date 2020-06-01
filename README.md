@@ -20,6 +20,7 @@ also using the [KRKeegan Fork of Baun CMS](https://github.com/krkeegan/Baun)
 for this to work right.)
 * Security Improvements - Don't report if username exists or not.  Add support
 for fail2ban protection on login page.
+* Fix bug preventing Folder field from being displayed properly.
 
 ## Fail2Ban
 
